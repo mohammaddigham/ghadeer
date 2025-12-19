@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>AI SPECIALIST | GHADEER</title>
+    <style>
+        body {
+            background-color: #000; color: #0F0;
+            font-family: 'Consolas', 'Courier New', monospace;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; margin: 0; overflow: hidden; cursor: none;
+        }
+        #matrix { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.15; }
+        #heart-cursor {
+            position: fixed; width: 15px; height: 15px; background-color: #ff0055;
+            transform: rotate(45deg); pointer-events: none; z-index: 10000;
+            box-shadow: 0 0 15px #ff0055;
+        }
+        #heart-cursor::before, #heart-cursor::after {
+            content: ""; position: absolute; width: 15px; height: 15px;
+            background-color: #ff0055; border-radius: 50%;
+        }
+        #heart-cursor::before { left: -8px; } #heart-cursor::after { top: -8px; }
+        .container {
+            border: 2px solid #0F0; box-shadow: 0 0 20px #0F0;
+            padding: 25px; background: rgba(0, 15, 0, 0.95);
+            border-radius: 15px; text-align: center; width: 480px; z-index: 10;
+        }
+        #final-name {
+            display: none; position: fixed; text-align: center;
+            z-index: 200; animation: pulse 2s infinite;
+        }
+        .name-glow {
+            font-size: 5rem; font-weight: bold; color: #fff;
+            text-shadow: 0 0 20px #ff0055, 0 0 40px #ff0055; margin: 0;
+        }
+        .date-glow { font-size: 2rem; color: #0F0; text-shadow: 0 0 10px #0F0; margin-top: 10px; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        input {
+            background: #000; border: 1px solid #0F0; color: #0F0;
+            padding: 12px; margin: 10px 0; width: 90%; text-align: center; outline: none;
+        }
+        button {
+            background: #0F0; color: #000; border: none; padding: 12px;
+            font-weight: bold; width: 95%; cursor: none; transition: 0.3s; margin-top: 10px;
+        }
+        button:hover { background: #ff0055; color: #fff; box-shadow: 0 0 20px #ff0055; }
+        #final-content, #hacker-message { display: none; }
+        .highlight { color: #fff; text-shadow: 0 0 10px #0F0; }
+        #hacker-message {
+            padding: 30px; width: 90%; max-width: 650px; z-index: 300;
+            background: rgba(0,0,0,0.98); border: 1px solid #ff0055; box-shadow: 0 0 15px #ff0055;
+            max-height: 85vh; overflow-y: auto;
+        }
+        .line-ltr { direction: ltr; text-align: left; color: #0F0; margin: 5px 0; font-size: 0.85rem; }
+        .line-rtl { direction: rtl; text-align: right; color: #ff0055; margin: 10px 0; font-weight: bold; line-height: 1.6; }
+        .signature { color: #555; font-size: 0.75rem; margin-top: 25px; text-align: center; border-top: 0.5px solid #333; padding-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <canvas id="matrix"></canvas>
+    <div id="heart-cursor"></div>
+
+    <div id="final-name">
+        <p class="name-glow">GHADEER</p>
+        <p class="date-glow">20 / 12 / 2006</p>
+    </div>
+
+    <div class="container" id="loginBox">
+        <h1 class="highlight">[ AI CORE ACCESS ]</h1>
+        <p style="direction: rtl;">نظام المصادقة الذكي.. يرجى التعريف عن نفسك</p>
+        <input type="text" id="nameIn" placeholder="Username (ghadeer)">
+        <input type="text" id="dateIn" placeholder="Password (20-12-2006)">
+        <button onclick="unlock()">START NEURAL LOADING</button>
+    </div>
+
+    <div class="container" id="final-content">
+        <h1 class="highlight">Happy Birthday, Ghadeer! 🎉</h1>
+        <p style="color: #0F0;">بانتظاركِ مستقبل ذكي ومبهر..</p>
+        <button onclick="startCelebration()">تفعيل بروتوكول ميلاد الخبيرة 🚀</button>
+    </div>
+
+    <div id="hacker-message">
+        <div id="typewriter-text"></div>
+        <div class="signature">Coded with passion by: Mohammad Digham</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        // Matrix Background Effect
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        const letters = "010101GHADEER-AI-NEURAL-Digham";
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#0F0"; ctx.font = fontSize + "px monospace";
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 35);
+
+        // Heart Cursor
+        const cursor = document.getElementById('heart-cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
+        });
+
+        // Speech Function
+        function speak(text) {
+            const msg = new SpeechSynthesisUtterance();
+            msg.text = text;
+            msg.lang = 'en-US';
+            msg.rate = 0.9;
+            window.speechSynthesis.speak(msg);
+        }
+
+        function unlock() {
+            const name = document.getElementById('nameIn').value.toLowerCase().trim();
+            const date = document.getElementById('dateIn').value.trim();
+            if (name === "ghadeer" && date === "20-12-2006") {
+                document.getElementById('loginBox').style.display = 'none';
+                document.getElementById('final-content').style.display = 'block';
+                speak("Access granted. Happy Birthday Ghadeer.");
+            } else { alert("Access Denied. Incorrect Credentials."); }
+        }
+
+        function startCelebration() {
+            document.getElementById('final-content').style.display = 'none';
+            document.getElementById('final-name').style.display = 'block';
+            speak("Initiating birthday celebration for the AI specialist, Ghadeer.");
+
+            var duration = 15 * 1000;
+            var animationEnd = Date.now() + duration;
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) { clearInterval(interval); showHackerMessage(); return; }
+                confetti({ particleCount: 50, spread: 360, origin: { x: Math.random(), y: Math.random() - 0.2 }, colors: ['#0F0', '#ff0055', '#fff'] });
+            }, 250);
+        }
+
+        // الكلام الجديد عن عيد الميلاد والذكاء الاصطناعي
+        const hackerSpeech = [
+            { text: "> Loading Mohammad Digham's Special Module...", type: "ltr" },
+            { text: "> Analyzing life_cycle.java for Ghadeer...", type: "ltr" },
+            { text: "---------------------------------------", type: "ltr" },
+            { text: "في مثل هذا اليوم، وُلد ذكاء استثنائي ليغير الواقع..", type: "rtl" },
+            { text: "غدير.. كل عام وأنتِ الخوارزمية الأكثر نجاحاً في حياتنا.", type: "rtl" },
+            { text: "اليوم لا نحتفل فقط بسنة مضت، بل بمستقبل مشرق ينتظر ذكاءكِ.", type: "rtl" },
+            { text: "أتمنى أن تكون السنة القادمة خالية من الـ Errors، مليئة بالـ Success.", type: "rtl" },
+            { text: "استمري في تدريب أحلامكِ حتى تصبح واقعاً مبهراً.", type: "rtl" },
+            { text: "أنتِ المبرمجة، والنجاح هو مخرجاتكِ الدائمة.", type: "rtl" },
+            { text: "---------------------------------------", type: "ltr" },
+            { text: "Happy Birthday, AI Specialist GHADEER! 🤖🎂", type: "ltr" }
+        ];
+
+        function showHackerMessage() {
+            document.getElementById('final-name').style.display = 'none';
+            document.getElementById('hacker-message').style.display = 'block';
+            let lineIndex = 0;
+            const textElement = document.getElementById('typewriter-text');
+
+            function typeLine() {
+                if (lineIndex < hackerSpeech.length) {
+                    let lineData = hackerSpeech[lineIndex];
+                    let p = document.createElement('p');
+                    p.className = lineData.type === "ltr" ? "line-ltr" : "line-rtl";
+                    textElement.appendChild(p);
+                    let charIndex = 0;
+                    
+                    function typeChar() {
+                        if (charIndex < lineData.text.length) {
+                            p.innerHTML += lineData.text.charAt(charIndex);
+                            charIndex++;
+                            setTimeout(typeChar, 40);
+                        } else {
+                            lineIndex++;
+                            setTimeout(typeLine, 800);
+                        }
+                    }
+                    typeChar();
+                }
+            }
+            typeLine();
+        }
+    </script>
+</body>
+</html>
